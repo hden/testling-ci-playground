@@ -6,7 +6,7 @@ var isCommonJS = typeof window == "undefined" && typeof exports == "object";
  * @namespace
  */
 var jasmine = {};
-if (isCommonJS) exports.jasmine = jasmine;
+exports.jasmine = jasmine;
 /**
  * @private
  */
