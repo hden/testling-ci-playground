@@ -1,4 +1,4 @@
-jasmine = require './spec/lib/jasmine.js'
+{jasmine} = require './spec/lib/jasmine.js'
 require './spec/lib/jasmine-html.js'
 require './spec/lib/jasmine.tap_reporter.js'
 
