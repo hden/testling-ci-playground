@@ -1,9 +1,10 @@
-window.isCommonJS = true # trick commonjs exports to work
-
+###
 runner = require('./spec/lib/jasmine.js')
 
 # attach jasmine to window
 window[key] = runner[key] for key of runner
+###
+require('./spec/lib/jasmine.js')()
 
 html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
