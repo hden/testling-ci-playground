@@ -11,7 +11,6 @@ require.load './PromiseSpec'
 require.load './PerformanceTest'
 ###
 
-###
 startJasmine = ->
   jasmine.getEnv().addReporter new jasmine.TapReporter()
   jasmine.getEnv().execute()
@@ -21,4 +20,3 @@ currentWindowOnload = window.onload
 window.onload = ->
   currentWindowOnload() if currentWindowOnload?
   setTimeout startJasmine, 1
-###
