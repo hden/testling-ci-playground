@@ -1,4 +1,4 @@
-require './lib/jasmine.js'
+require './spec/lib/jasmine.js'
 # require.load './lib/jasmine-html.js'
 # require.load './lib/jasmine.tap_reporter.js'
 
