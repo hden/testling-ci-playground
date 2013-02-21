@@ -1,10 +1,10 @@
 attach = (obj) ->
   window[key] = obj[key] for key of obj
 
-jasmine = require('./spec/lib/jasmine.js')
+runner = require('./spec/lib/jasmine.js')
 
 # attach jasmine to window
-attach jasmine
+attach runner
 
 html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
