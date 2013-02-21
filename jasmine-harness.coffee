@@ -1,14 +1,21 @@
-runner = require('./spec/lib/jasmine.js')
+expose = (obj) ->
+  window[key] = obj[key] for key of obj
+
+jasmine = require('./spec/lib/jasmine.js')
 
 # attach jasmine to window
-window[key] = runner[key] for key of runner
+expose jasmine
 
 html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
 
+
+helper = require('./spec/SpecHelper')
+mock = require('./spec/Mock')
+expose helper
+expose mock
+
 # insert test files here
-# require('./spec/SpecHelper')()
-# require('./spec/Mock')()
 require('./spec/BaconSpec')
 # require('./spec/PromiseSpec')()
 # require('./spec/PerformanceTest')()
