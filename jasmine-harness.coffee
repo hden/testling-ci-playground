@@ -1,17 +1,15 @@
-###
 runner = require('./spec/lib/jasmine.js')
 
 # attach jasmine to window
 window[key] = runner[key] for key of runner
-###
-require('./spec/lib/jasmine.js')()
 
 html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
 
 # insert test files here
+
+require('./SpecHelper')()
 ###
-require.load './SpecHelper'
 require.load './Mock'
 require.load './BaconSpec'
 require.load './PromiseSpec'
