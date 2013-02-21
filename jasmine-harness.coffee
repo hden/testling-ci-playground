@@ -1,6 +1,6 @@
 require './spec/lib/jasmine.js'
-# require.load './lib/jasmine-html.js'
-# require.load './lib/jasmine.tap_reporter.js'
+require './spec/lib/jasmine-html.js'
+require './spec/lib/jasmine.tap_reporter.js'
 
 # insert test files here
 ###
