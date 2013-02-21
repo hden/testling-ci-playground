@@ -22,7 +22,9 @@
       "ff": [ 12, 13, 14, 15, 16, 17 ],
       "chrome": [ 20, 21, 22, 23 ],
       "opera": [ 10, 11, 12 ],
-      "safari": [ 5.1 ]
+      "safari": [ 5.1, 6 ],
+      "iphone": [ 6 ],
+      "ipad": [ 6 ]
     },
     "files": "jasmine-harness.coffee"
   },
