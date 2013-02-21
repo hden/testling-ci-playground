@@ -1,4 +1,4 @@
-var isCommonJS = typeof window == "undefined" && typeof exports == "object";
+var isCommonJS = true;
 
 /**
  * Top level namespace for Jasmine, a lightweight JavaScript BDD/spec/testing framework.
