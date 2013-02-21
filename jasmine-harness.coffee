@@ -10,13 +10,13 @@ html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
 
 
-helper = require('./spec/SpecHelper')
-mock = require('./spec/Mock')
-expose helper
-expose mock
+# helper = require('./spec/SpecHelper')
+# mock = require('./spec/Mock')
+# expose helper
+# expose mock
 
 # insert test files here
-require('./spec/BaconSpec')
+# require('./spec/BaconSpec')
 # require('./spec/PromiseSpec')()
 # require('./spec/PerformanceTest')()
 
