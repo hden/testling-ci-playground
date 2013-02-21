@@ -8,12 +8,12 @@ tap = require './spec/lib/jasmine.tap_reporter.js'
 
 # insert test files here
 
-require('./SpecHelper')()
+require('./spec/SpecHelper')()
 ###
-require.load './Mock'
-require.load './BaconSpec'
-require.load './PromiseSpec'
-require.load './PerformanceTest'
+require.load './spec/Mock'
+require.load './spec/BaconSpec'
+require.load './spec/PromiseSpec'
+require.load './spec/PerformanceTest'
 ###
 
 describe 'Basic Suite', ->
