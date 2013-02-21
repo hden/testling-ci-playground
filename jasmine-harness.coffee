@@ -7,14 +7,11 @@ html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
 
 # insert test files here
-
-require('./spec/SpecHelper')()
-###
-require.load './spec/Mock'
-require.load './spec/BaconSpec'
-require.load './spec/PromiseSpec'
-require.load './spec/PerformanceTest'
-###
+# require('./spec/SpecHelper')()
+# require('./spec/Mock')()
+require('./spec/BaconSpec')
+# require('./spec/PromiseSpec')()
+# require('./spec/PerformanceTest')()
 
 describe 'Basic Suite', ->
   it 'Should pass a basic truthiness test.', ->
