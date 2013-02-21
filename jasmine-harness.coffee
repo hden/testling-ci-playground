@@ -1,3 +1,5 @@
+window.isCommonJS = true # trick commonjs exports to work
+
 runner = require('./spec/lib/jasmine.js')
 
 # attach jasmine to window
