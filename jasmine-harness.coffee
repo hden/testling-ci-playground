@@ -11,6 +11,11 @@ require.load './PromiseSpec'
 require.load './PerformanceTest'
 ###
 
+describe 'Basic Suite', ->
+  it 'Should pass a basic truthiness test.', ->
+    expect(true).toEqual(true)
+    expect(false).toEqual(false)
+
 startJasmine = ->
   jasmine.getEnv().addReporter new jasmine.TapReporter()
   jasmine.getEnv().execute()
