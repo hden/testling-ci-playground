@@ -1,10 +1,7 @@
-attach = (obj) ->
-  window[key] = obj[key] for key of obj
-
-runner = require('./spec/lib/jasmine.js')
+expose = (obj) -> window[key] = obj[key] for key of obj
 
 # attach jasmine to window
-attach runner
+expose require('./spec/lib/jasmine.js')
 
 html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
@@ -12,8 +9,8 @@ tap = require './spec/lib/jasmine.tap_reporter.js'
 
 # helper = require('./spec/SpecHelper')
 # mock = require('./spec/Mock')
-# expose helper
-# expose mock
+# attach helper
+# attach mock
 
 # insert test files here
 # require('./spec/BaconSpec')
