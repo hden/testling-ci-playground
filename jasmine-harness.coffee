@@ -1,6 +1,6 @@
-{jasmine} = require './spec/lib/jasmine.js'
-require './spec/lib/jasmine-html.js'
-require './spec/lib/jasmine.tap_reporter.js'
+window.jasmine = require('./spec/lib/jasmine.js').jasmine
+html = require './spec/lib/jasmine-html.js'
+tap = require './spec/lib/jasmine.tap_reporter.js'
 
 # insert test files here
 ###
