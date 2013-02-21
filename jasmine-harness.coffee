@@ -11,7 +11,7 @@ expose require('./spec/SpecHelper')
 expose require('./spec/Mock')
 
 # insert test files here
-# require('./spec/BaconSpec')
+require('./spec/BaconSpec')
 # require('./spec/PromiseSpec')()
 # require('./spec/PerformanceTest')()
 
