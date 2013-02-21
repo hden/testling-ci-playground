@@ -7,8 +7,8 @@ html = require './spec/lib/jasmine-html.js'
 tap = require './spec/lib/jasmine.tap_reporter.js'
 
 # expose helpers
-attach require('./spec/SpecHelper')
-attach require('./spec/Mock')
+expose require('./spec/SpecHelper')
+expose require('./spec/Mock')
 
 # insert test files here
 # require('./spec/BaconSpec')
