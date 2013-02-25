@@ -38,10 +38,11 @@ Bacon.sequentially = (delay, values) ->
   index = -1
   poll = ->
     index++
-    if index < values.length
-      toEvent values[index]
+    valueEvent = toEvent values[index]
+    if index < values.length - 1
+      valueEvent
     else
-      end()
+      [valueEvent, end()]
   Bacon.fromPoll(delay, poll)
 
 Bacon.repeatedly = (delay, values) ->
@@ -64,14 +65,16 @@ Bacon.fromPoll = (delay, poll) ->
   new EventStream (sink) ->
     id = undefined
     handler = ->
-      value = poll()
-      reply = sink value
-      if (reply == Bacon.noMore or value.isEnd())
-        unbind()
+      events = _.toArray(poll())
+      for event in events
+        reply = sink event
+        if (reply == Bacon.noMore or event.isEnd())
+          unbind()
     unbind = -> 
       clearInterval id
     id = setInterval(handler, delay)
     unbind
+
 
 # Wrap DOM EventTarget or Node EventEmitter as EventStream
 #
@@ -471,32 +474,53 @@ class EventStream extends Observable
   throttle: (delay) ->
     @flatMapLatest (value) ->
       Bacon.later delay, value
+
   bufferWithTime: (delay) ->
-    values = []
-    storeAndMaybeTrigger = (value) ->
-      values.push value
-      values.length == 1
-    flush = ->
-      output = values
-      values = []
-      output
-    buffer = ->
-      Bacon.later(delay).map(flush)
-    @filter(storeAndMaybeTrigger).flatMap(buffer)
+    schedule = (buffer) => buffer.schedule()
+    @buffer(delay, schedule, schedule)
+
   bufferWithCount: (count) ->
-    values = []
+    flushOnCount = (buffer) -> buffer.flush() if buffer.values.length == count
+    @buffer(0, flushOnCount)
+
+  buffer: (delay, onInput = (->), onFlush = (->)) ->
+    buffer = {
+      scheduled: false
+      end : null
+      values : []
+      flush: ->
+        @scheduled = false
+        if @values.length > 0
+          reply = @push next(@values)
+          @values = []
+          if @end?
+            @push @end
+          else if reply != Bacon.noMore
+            onFlush(this)
+        else
+          @push @end if @end?
+      schedule: ->
+        if not @scheduled
+          @scheduled = true
+          delay(=> @flush())
+    }
+    reply = Bacon.more
+    if not isFunction(delay)
+      delayMs = delay
+      delay = (f) -> setTimeout(f, delayMs)
     @withHandler (event) ->
-      flush = =>
-        @push next(values, event)
-        values = []
+      buffer.push = @push
       if event.isError()
-        @push event
+        reply = @push event
       else if event.isEnd()
-        flush()
-        @push event
+        buffer.end = event
+        if not buffer.scheduled
+          buffer.flush()
       else
-        values.push(event.value())
-        flush() if values.length == count
+        buffer.values.push(event.value())
+        onInput(buffer)
+      reply
+
   merge: (right) -> 
     left = this
     new EventStream (sink) ->
@@ -858,7 +882,8 @@ makeFunction = (f, args) ->
   else
     _.always f
 isFieldKey = (f) ->
-  (typeof f == "string") and f.length > 1 and f[0] == "."
+  (typeof f == "string") and f.length > 1 and f.charAt(0) == "."
+Bacon.isFieldKey = isFieldKey
 toFieldExtractor = (f, args) ->
   parts = f.slice(1).split(".")
   partFuncs = _.map(toSimpleExtractor(args), parts)
@@ -907,6 +932,7 @@ _ = {
   each: (xs, f) ->
     for key, value of xs
       f(key, value)
+  toArray: (xs) -> if (xs instanceof Array) then xs else [xs]
   contains: (xs, x) -> indexOf(xs, x) != -1
   id: (x) -> x
   last: (xs) -> xs[xs.length-1]

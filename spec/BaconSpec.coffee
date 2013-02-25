@@ -328,6 +328,25 @@ describe "EventStream.bufferWithTime", ->
     expectStreamEvents(
       -> series(2, [error(), 1, 2, 3, 4, 5, 6, 7]).bufferWithTime(t(7))
       [error(), [1, 2, 3, 4], [5, 6, 7]])
+  it "keeps constant output rate even when input is sporadical", ->
+    th.expectStreamTimings(
+      -> th.atGivenTimes([[0, "a"], [3, "b"], [5, "c"]]).bufferWithTime(t(2))
+      [[2, ["a"]], [4, ["b"]], [6, ["c"]]]
+    )
+  it "works with empty stream", ->
+    expectStreamEvents(
+      -> Bacon.never().bufferWithTime(t(1))
+      [])
+  it "allows custom defer-function", ->
+    fast = (f) -> setTimeout(f, 0)
+    th.expectStreamTimings(
+      -> th.atGivenTimes([[0, "a"], [2, "b"]]).bufferWithTime(fast)
+      [[0, ["a"]], [2, ["b"]]])
+  it "works with synchronous defer-function", ->
+    sync = (f) -> f()
+    th.expectStreamTimings(
+      -> th.atGivenTimes([[0, "a"], [2, "b"]]).bufferWithTime(sync)
+      [[0, ["a"]], [2, ["b"]]])
 
 describe "EventStream.bufferWithCount", ->
   it "returns events in chunks of fixed size, passing through errors", ->
