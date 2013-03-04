@@ -1,6 +1,6 @@
 {
   "name": "baconjs",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "author": "Juha Paananen",
   "licenses": [
     "MIT"
@@ -14,8 +14,9 @@
     "grunt-contrib-coffee": "~0.3",
     "grunt-contrib-clean": "~0.3",
     "grunt-contrib-copy": "~0.3.2",
-    "benchmark": "1.0.0",
-    "browserify": "https://github.com/substack/node-browserify/tarball/1.17.2"
+    "benchmark": "~1.0.0",
+    "sinon": "~1.6.0",
+    "browserify": "~1.18.0"
   },
   "testling": {
     "browsers": {
@@ -56,7 +57,7 @@
         6
       ]
     },
-    "files": "jasmine-harness.coffee"
+    "files": "browsertest/jasmine-harness.coffee"
   },
   "scripts": {
     "test": "jasmine-node --coffee spec",

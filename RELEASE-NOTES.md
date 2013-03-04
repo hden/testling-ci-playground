@@ -1,3 +1,16 @@
+## Next release
+
+- fix bufferWithTime behaviour: output at steady rate as long as there's anything to output
+- add throttle2
+
+## 0.1.7
+
+- Fixed tests too on IE6+
+
+## 0.1.6
+
+- Fix property extraction (".field") syntax compatibility with IE6-7
+
 ## 0.1.5
 
 - Bus.plug returns function for unplugging

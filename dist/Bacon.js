@@ -935,6 +935,12 @@
       });
     };
 
+    EventStream.prototype.throttle2 = function(delay) {
+      return this.bufferWithTime(delay).map(function(values) {
+        return values[values.length - 1];
+      });
+    };
+
     EventStream.prototype.bufferWithTime = function(delay) {
       var schedule,
         _this = this;
@@ -1294,11 +1300,25 @@
     };
 
     Property.prototype.delay = function(delay) {
-      return addPropertyInitValueToStream(this, this.changes().delay(delay));
+      return this.delayChanges(function(changes) {
+        return changes.delay(delay);
+      });
     };
 
     Property.prototype.throttle = function(delay) {
-      return addPropertyInitValueToStream(this, this.changes().throttle(delay));
+      return this.delayChanges(function(changes) {
+        return changes.throttle(delay);
+      });
+    };
+
+    Property.prototype.throttle2 = function(delay) {
+      return this.delayChanges(function(changes) {
+        return changes.throttle2(delay);
+      });
+    };
+
+    Property.prototype.delayChanges = function(f) {
+      return addPropertyInitValueToStream(this, f(this.changes()));
     };
 
     return Property;

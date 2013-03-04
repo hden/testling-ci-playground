@@ -243,10 +243,22 @@ ignored
 
 Example:
 
-    var throttled = source.throttle(1)
+    var throttled = source.throttle(2)
     
     source:    asdf----asdf----
     throttled: -----f-------f--
+
+`observable.throttle2(delay)` throttles stream/property by given amount
+of milliseconds. Events are emitted with the minimum interval of
+`delay`, but this version of throttle does not wait for a quiet period.
+The implementation if based on stream.bufferWithTime.
+
+Example:
+
+    var throttled = source.throttle2(2)
+
+    source:    asdf----asdf----
+    throttled: --s--f----s--f--
 
 `observable.doAction(f)` returns a stream/property where the function f
 is executed for each value, before dispatching to subscribers. This is
@@ -363,6 +375,12 @@ events from both
 The buffer is flushed at most once in the given delay. So, if your input
 contains [1,2,3,4,5,6,7], then you might get two events containing [1,2,3,4]
 and [5,6,7] respectively, given that the flush occurs between numbers 4 and 5.
+
+`stream.bufferWithTime(f)` works with a given "defer-function" instead
+of a delay. Here's a simple example, which is equivalent to
+stream.bufferWithTime(10):
+
+    stream.bufferWithTime(function(f) { setTimeout(f, 10) })
 
 `stream.bufferWithCount(count)` buffers stream events with given count.
 The buffer is flushed when it contains the given number of elements. So, if
@@ -796,8 +814,10 @@ Run unit tests:
 
 Run browser tests:
 
-    npm install -g phantomjs
-    phantomjs browsertest/lib/mocha-phantomjs.coffee browsertest/phantom.runner.html
+    npm install
+    npm install --save-dev browserify@1.18.0
+    npm install -g testem
+    testem
 
 Dependencies
 ============
@@ -820,10 +840,19 @@ I'm not sure how it works in case some other lib adds stuff to, say, Array proto
 Compatibility with browsers
 ===========================
 
-Bacon.js is not browser dependent, because it is not a UI library. Hence there are not actual browser tests and no
-"official" list of supported browsers.
+TLDR: good.
 
-I have used Bacon.js with Chrome, Firefox, Safari, IE 8+, iPhone, iPad.
+Bacon.js is not browser dependent, because it is not a UI library.
+
+I have personally used it Bacon.js with Chrome, Firefox, Safari, IE 6+, iPhone, iPad.
+
+Automatically tested on each commit on modern browsers and IE6+.
+
+The full Bacon.js test suite is run on testling.ci with a wide range of browsers:
+
+[![browser support test report](http://ci.testling.com/raimohanska/bacon.js.png)](http://ci.testling.com/raimohanska/bacon.js)
+
+Results from those tests are quite unreliable, producing random failures, but the bottom line is that there are no outstanding compatibility issues.
 
 Node.js
 =======

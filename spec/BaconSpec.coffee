@@ -322,6 +322,16 @@ describe "EventStream.throttle", ->
     expectStreamEvents(
       -> series(2, [1, error(), 2]).throttle(t(7))
       [error(), 2])
+  it "waits for a quiet period before outputing anything", ->
+    expectStreamTimings(
+      -> series(2, [1, 2, 3, 4]).throttle(t(3))
+      [[11, 4]])
+
+describe "EventStream.throttle2(delay)", ->
+  it "outputs at steady intervals, without waiting for quite period", ->
+    expectStreamTimings(
+      -> series(2, [1, 2, 3]).throttle2(t(3))
+      [[5, 2], [8, 3]])
 
 describe "EventStream.bufferWithTime", ->
   it "returns events in bursts, passing through errors", ->
@@ -595,6 +605,11 @@ describe "Property.throttle", ->
     expectPropertyEvents(
       -> series(2, [1,2,3]).toProperty().throttle(t(4))
       [3])
+describe "Property.throttle2", ->
+  it "throttles changes, but not initial value", ->
+    expectPropertyEvents(
+      -> series(1, [1,2,3]).toProperty(0).throttle2(t(4))
+      [0,3])
 
 describe "Property.endOnError", ->
   it "terminates on Error", ->

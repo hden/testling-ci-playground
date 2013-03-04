@@ -1,4 +1,4 @@
-(this.jQuery || this.Zepto)?.fn.asEventStream = (eventName, selector, eventTransformer = _.id) ->
+(window?.jQuery || window?.Zepto)?.fn.asEventStream = (eventName, selector, eventTransformer = _.id) ->
   if (isFunction(selector))
     eventTransformer = selector
     selector = null
@@ -475,6 +475,9 @@ class EventStream extends Observable
     @flatMapLatest (value) ->
       Bacon.later delay, value
 
+  throttle2: (delay) ->
+    @bufferWithTime(delay).map((values) -> values[values.length - 1])
+
   bufferWithTime: (delay) ->
     schedule = (buffer) => buffer.schedule()
     @buffer(delay, schedule, schedule)
@@ -655,8 +658,10 @@ class Property extends Observable
   and: (other) -> @combine(other, (x, y) -> x && y)
   or:  (other) -> @combine(other, (x, y) -> x || y)
   decode: (cases) -> @combine(Bacon.combineTemplate(cases), (key, values) -> values[key])
-  delay: (delay) -> addPropertyInitValueToStream(this, @changes().delay(delay))
-  throttle: (delay) -> addPropertyInitValueToStream(this, @changes().throttle(delay))
+  delay: (delay) -> @delayChanges((changes) -> changes.delay(delay))
+  throttle: (delay) -> @delayChanges((changes) -> changes.throttle(delay))
+  throttle2: (delay) -> @delayChanges((changes) -> changes.throttle2(delay))
+  delayChanges: (f) -> addPropertyInitValueToStream(this, f(@changes())) 
 
 addPropertyInitValueToStream = (property, stream) ->
   getInitValue = (property) ->
