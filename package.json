@@ -14,9 +14,9 @@
     "grunt-contrib-coffee": "~0.3",
     "grunt-contrib-clean": "~0.3",
     "grunt-contrib-copy": "~0.3.2",
-    "benchmark": "~1.0.0",
-    "sinon": "~1.6.0",
-    "browserify": "~1.18.0"
+    "benchmark": "1.0.0",
+    "browserify": "1.18.0",
+    "sinon": "~1.6.0"
   },
   "testling": {
     "browsers": {

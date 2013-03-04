@@ -5,7 +5,7 @@ expose require '../lib/jasmine.js' unless jasmine?
 
 html = require '../lib/jasmine-html.js'
 tap = require '../lib/jasmine.tap_reporter.js'
-sinon = require '../lib/sinon.js'
+sinon = require 'sinon'
 require '../lib/jquery.js'
 
 # expose helpers
